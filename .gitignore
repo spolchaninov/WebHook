@@ -1,0 +1,28 @@
+# Azure Functions artifacts
+bin
+obj
+
+# Azurite artifacts
+__blobstorage__
+__queuestorage__
+__azurite_db*__.json
+
+# Local settings (contains secrets)
+local.settings.json
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
