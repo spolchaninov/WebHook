@@ -6,7 +6,8 @@ Write-Information "Request body: $($Request.Body | ConvertTo-Json -Depth 10 -Com
 
 # Extract resource name from the first alert's labels
 $resourceName = $Request.Body.alerts[0].labels.resourceName
-Write-Information "Resource name: $resourceName" -InformationAction Continue
+
+$alertStatus = $Request.Body.alerts[0].status
 
 # Map resource name to resource group and subscription ID
 $resourceMap = @{
@@ -29,7 +30,12 @@ if (-not $resourceMap.ContainsKey($resourceName)) {
 $resourceGroup   = $resourceMap[$resourceName].ResourceGroup
 $subscriptionId  = $resourceMap[$resourceName].SubscriptionId
 
-Write-Information "Resource group: $resourceGroup, Subscription ID: $subscriptionId" -InformationAction Continue
+if( $alertStatus -ne "firing" )
+{
+    return
+}
+
+Write-Information "Resource name: $resourceName, Resource group: $resourceGroup, Subscription ID: $subscriptionId" -InformationAction Continue
 
 Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
     StatusCode = [HttpStatusCode]::OK
