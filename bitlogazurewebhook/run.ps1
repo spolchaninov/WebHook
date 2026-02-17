@@ -35,7 +35,17 @@ if( $alertStatus -ne "firing" )
     return
 }
 
-Write-Information "Resource name: $resourceName, Resource group: $resourceGroup, Subscription ID: $subscriptionId" -InformationAction Continue
+$endpointName = $Request.Body.alerts[0].labels.endpointname
+
+Write-Information "Resource name: $resourceName, Resource group: $resourceGroup, Subscription: $subscriptionId, Endpoint: $endpointName" -InformationAction Continue
+
+# Set Azure context to the correct subscription
+Set-AzContext -SubscriptionId $subscriptionId | Out-Null
+
+# Disable the Traffic Manager endpoint
+Disable-AzTrafficManagerEndpoint -Name $endpointName -ProfileName $resourceName -ResourceGroupName $resourceGroup -Type ExternalEndpoints -Force
+
+Write-Information "Disabled Traffic Manager endpoint '$endpointName' in profile '$resourceName'" -InformationAction Continue
 
 Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
     StatusCode = [HttpStatusCode]::OK
