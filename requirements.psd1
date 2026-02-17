@@ -1,6 +1,4 @@
 @{
-    # Optionally, add module dependencies here.
-    # For example:
-    # 'Az.Accounts' = '3.*'
-    # 'Az.Storage'  = '6.*'
+    'Az.Accounts'       = '3.*'
+    'Az.TrafficManager' = '1.*'
 }

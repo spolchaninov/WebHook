@@ -9,9 +9,6 @@
 # You can define helper functions, run commands, or specify environment
 # variables in this file.
 
-# Authenticate with Azure PowerShell using MSI (if applicable).
-# Remove this if you are not planning on using MSI or Azure PowerShell.
-if ($env:MSI_SECRET) {
-    Disable-AzContextAutosave -Scope Process | Out-Null
-    Connect-AzAccount -Identity
-}
+# Authenticate with Azure using the "grafana-webhook" user-assigned managed identity.
+Disable-AzContextAutosave -Scope Process | Out-Null
+Connect-AzAccount -Identity -AccountId $Env:Identity_ClientId
