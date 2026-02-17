@@ -4,6 +4,16 @@ param($Request, $TriggerMetadata)
 
 Write-Information "Request body: $($Request.Body | ConvertTo-Json -Depth 10 -Compress)" -InformationAction Continue
 
+# Check if it is a test alert
+$receiver = $Request.Body.receiver
+
+if ( $receiver -eq "test" )
+{
+   Write-Information "Test alert." -InformationAction Continue
+   return
+}
+
+
 # Extract resource name from the first alert's labels
 $resourceName = $Request.Body.alerts[0].labels.resourceName
 

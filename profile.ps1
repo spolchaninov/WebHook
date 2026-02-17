@@ -11,4 +11,4 @@
 
 # Authenticate with Azure using the "grafana-webhook" user-assigned managed identity.
 Disable-AzContextAutosave -Scope Process | Out-Null
-Connect-AzAccount -Identity
+Connect-AzAccount -Identity -AccountId $Env:Identity_ClientId
